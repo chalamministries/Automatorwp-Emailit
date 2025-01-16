@@ -2,7 +2,7 @@
 /**
  * Ajax Functions
  *
- * @package     AutomatorWP\MailPoet\includes\Ajax_Functions
+ * @package     AutomatorWP\EmailIt\includes\Ajax_Functions
  * @since       1.0.0
  */
 // Exit if accessed directly

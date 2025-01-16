@@ -2,7 +2,7 @@
 /**
  * Functions
  *
- * @package     AutomatorWP\MailPoet\Functions
+ * @package     AutomatorWP\EmailIt\Functions
  * @since       1.0.0
  */
 // Exit if accessed directly
@@ -23,11 +23,11 @@ function automatorwp_mailpoet_lists_options_cb( $field ) {
     $none_label = __( 'a list', 'automatorwp-mailpoet' );
     $options = automatorwp_options_cb_none_option( $field, $none_value, $none_label );
 
-    if ( ! class_exists( '\MailPoet\API\API' ) ) {
+    if ( ! class_exists( '\EmailIt\API\API' ) ) {
         return $options;
     }
 
-    $mailpoet  = \MailPoet\API\API::MP( 'v1' );
+    $mailpoet  = \EmailIt\API\API::MP( 'v1' );
     $lists = $mailpoet->getLists();
 
     if( is_array( $lists ) ) {
@@ -78,7 +78,7 @@ function automatorwp_mailpoet_options_cb_form( $field ) {
 }
 
 /**
- * Get MailPoet forms
+ * Get EmailIt forms
  *
  * @since 1.0.0
  *

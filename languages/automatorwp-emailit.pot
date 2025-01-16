@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: AutomatorWP - MailPoet\n"
+"Project-Id-Version: AutomatorWP - EmailIt\n"
 "Report-Msgid-Bugs-To: https://automatorwp.com/\n"
 "POT-Creation-Date: 2023-03-29 15:46+0200\n"
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
@@ -20,9 +20,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: libraries\n"
 
-#: automatorwp-mailpoet.php:164
+#: automatorwp-emailit.php:166
 #, php-format
-msgid "AutomatorWP - MailPoet requires %s and %s in order to work. Please install and activate them."
+msgid "AutomatorWP - EmailIt requires %s and %s in order to work. Please install and activate them."
+msgstr ""
+
+#: automatorwp-emailit.php:176
+#, php-format
+msgid "AutomatorWP - EmailIt requires EmailItWP Mode to be set to `API`. You can find this option under Tools -> EmailItWP Settings."
 msgstr ""
 
 #: includes/actions/add-subscriber-to-list.php:26

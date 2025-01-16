@@ -1,26 +1,26 @@
 <?php
 /**
  * Plugin Name:           AutomatorWP - EmailIt
- * Plugin URI:            https://automatorwp.com/add-ons/mailpoet/
+ * Plugin URI:            https://github.com/chalamministries/Automatorwp-Emailit
  * Description:           Connect AutomatorWP with EmailIt.
  * Version:               1.0
  * Author:                Chalam Ministries
  * Author URI:            https://automatorwp.com/
- * Text Domain:           automatorwp-mailpoet
+ * Text Domain:           automatorwp-emailit
  * Domain Path:           /languages/
  * Requires at least:     4.4
  * Tested up to:          6.7
  * License:               GNU AGPL v3.0 (http://www.gnu.org/licenses/agpl.txt)
  *
- * @package               AutomatorWP\MailPoet
+ * @package               AutomatorWP\EmailIt
  * @author                AutomatorWP
  * @copyright             Copyright (c) AutomatorWP
  */
 
-final class AutomatorWP_MailPoet {
+final class AutomatorWP_EmailIt {
 
     /**
-     * @var         AutomatorWP_MailPoet $instance The one true AutomatorWP_MailPoet
+     * @var         AutomatorWP_EmailIt $instance The one true AutomatorWP_EmailIt
      * @since       1.0.0
      */
     private static $instance;
@@ -30,11 +30,11 @@ final class AutomatorWP_MailPoet {
      *
      * @access      public
      * @since       1.0.0
-     * @return      AutomatorWP_MailPoet self::$instance The one true AutomatorWP_MailPoet
+     * @return      AutomatorWP_EmailIt self::$instance The one true AutomatorWP_EmailIt
      */
     public static function instance() {
         if( !self::$instance ) {
-            self::$instance = new AutomatorWP_MailPoet();
+            self::$instance = new AutomatorWP_EmailIt();
             self::$instance->constants();
             self::$instance->includes();
             self::$instance->hooks();
@@ -53,16 +53,16 @@ final class AutomatorWP_MailPoet {
      */
     private function constants() {
         // Plugin version
-        define( 'AUTOMATORWP_MAILPOET_VER', '1.0.6' );
+        define( 'AUTOMATORWP_EMAILIT_VER', '1.0.6' );
 
         // Plugin file
-        define( 'AUTOMATORWP_MAILPOET_FILE', __FILE__ );
+        define( 'AUTOMATORWP_EMAILIT_FILE', __FILE__ );
 
         // Plugin path
-        define( 'AUTOMATORWP_MAILPOET_DIR', plugin_dir_path( __FILE__ ) );
+        define( 'AUTOMATORWP_EMAILIT_DIR', plugin_dir_path( __FILE__ ) );
 
         // Plugin URL
-        define( 'AUTOMATORWP_MAILPOET_URL', plugin_dir_url( __FILE__ ) );
+        define( 'AUTOMATORWP_EMAILIT_URL', plugin_dir_url( __FILE__ ) );
     }
 
     /**
@@ -75,20 +75,23 @@ final class AutomatorWP_MailPoet {
     private function includes() {
 
         if( $this->meets_requirements() ) {
+            
+            // API Files
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/sdk/autoload.php';
 
             // Includes
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/functions.php';
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/ajax-functions.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/functions.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/ajax-functions.php';
 
             // Actions
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/actions/add-user-to-list.php';
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/actions/add-subscriber-to-list.php';
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/actions/remove-user-from-list.php';
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/actions/remove-subscriber-from-list.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/actions/add-user-to-list.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/actions/add-subscriber-to-list.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/actions/remove-user-from-list.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/actions/remove-subscriber-from-list.php';
 
             // Triggers
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/triggers/submit-form.php';
-            require_once AUTOMATORWP_MAILPOET_DIR . 'includes/triggers/anonymous-submit-form.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/triggers/submit-form.php';
+            require_once AUTOMATORWP_EMAILIT_DIR . 'includes/triggers/anonymous-submit-form.php';
 
         }
     }
@@ -104,7 +107,7 @@ final class AutomatorWP_MailPoet {
 
         add_action( 'automatorwp_init', array( $this, 'register_integration' ) );
 
-        add_filter( 'automatorwp_licenses_meta_boxes', array( $this, 'license' ) );
+        //add_filter( 'automatorwp_licenses_meta_boxes', array( $this, 'license' ) );
 
         add_action( 'admin_notices', array( $this, 'admin_notices' ) );
     }
@@ -116,9 +119,9 @@ final class AutomatorWP_MailPoet {
      */
     function register_integration() {
 
-        automatorwp_register_integration( 'mailpoet', array(
-            'label' => 'MailPoet',
-            'icon'  => AUTOMATORWP_MAILPOET_URL . 'assets/mailpoet.svg',
+        automatorwp_register_integration( 'emailit', array(
+            'label' => 'emailit',
+            'icon'  => AUTOMATORWP_EMAILIT_URL . 'assets/emailit.svg',
         ) );
 
     }
@@ -132,22 +135,22 @@ final class AutomatorWP_MailPoet {
      *
      * @return array
      */
-    function license( $meta_boxes ) {
-
-        $meta_boxes['automatorwp-mailpoet-license'] = array(
-            'title' => 'MailPoet',
-            'fields' => array(
-                'automatorwp_mailpoet_license' => array(
-                    'type' => 'edd_license',
-                    'file' => AUTOMATORWP_MAILPOET_FILE,
-                    'item_name' => 'MailPoet',
-                ),
-            )
-        );
-
-        return $meta_boxes;
-
-    }
+//     function license( $meta_boxes ) {
+// 
+//         $meta_boxes['automatorwp-Emailit-license'] = array(
+//             'title' => 'Emailit',
+//             'fields' => array(
+//                 'AUTOMATORWP_EMAILIT_license' => array(
+//                     'type' => 'edd_license',
+//                     'file' => AUTOMATORWP_EMAILIT_FILE,
+//                     'item_name' => 'Emailit',
+//                 ),
+//             )
+//         );
+// 
+//         return $meta_boxes;
+// 
+//     }
 
     /**
      * Plugin admin notices.
@@ -156,22 +159,34 @@ final class AutomatorWP_MailPoet {
      */
     public function admin_notices() {
 
-        if ( ! $this->meets_requirements() && ! defined( 'AUTOMATORWP_ADMIN_NOTICES' ) ) : ?>
-
-            <div id="message" class="notice notice-error is-dismissible">
-                <p>
-                    <?php printf(
-                        __( 'AutomatorWP - MailPoet requires %s and %s in order to work. Please install and activate them.', 'automatorwp-mailpoet' ),
-                        '<a href="https://wordpress.org/plugins/automatorwp/" target="_blank">AutomatorWP</a>',
-                        '<a href="https://wordpress.org/plugins/mailpoet/" target="_blank">MailPoet</a>'
-                    ); ?>
-                </p>
-            </div>
-
+        if ( ! defined( 'AUTOMATORWP_ADMIN_NOTICES' ) ) :
+            $emailit_mode = get_option('emailit_mode', 'API');
+            
+            if ( ! $this->meets_requirements() ) { ?>
+                <div id="message" class="notice notice-error is-dismissible">
+                    <p>
+                        <?php printf(
+                            __( 'AutomatorWP - EmailIt requires %s and %s in order to work. Please install and activate them.', 'automatorwp-emailit' ),
+                            '<a href="https://wordpress.org/plugins/automatorwp/" target="_blank">AutomatorWP</a>',
+                            '<a href="https://github.com/stingray82/EmailitWP" target="_blank">EmailitWP</a>'
+                        ); ?>
+                    </p>
+                </div>
             <?php define( 'AUTOMATORWP_ADMIN_NOTICES', true ); ?>
-
+            
+            <?php } elseif ( ! $emailit_mode ) { ?>
+                <div id="message" class="notice notice-error is-dismissible">
+                    <p>
+                        <?php printf(
+                            __( 'AutomatorWP - EmailIt requires EmailItWP Mode to be set to `API`. You can find this option under Tools -> EmailItWP Settings.', 'automatorwp-emailit' ) ); ?>
+                    </p>
+                </div>
+            <?php define( 'AUTOMATORWP_ADMIN_NOTICES', true ); ?>
+            
+            <?php } ?>
+           
         <?php endif;
-
+        
     }
 
     /**
@@ -187,7 +202,11 @@ final class AutomatorWP_MailPoet {
             return false;
         }
 
-        if ( ! defined( 'MAILPOET_VERSION' ) ) {
+        if ( ! defined( 'EMAILIT_VERSION' ) ) {
+            return false;
+        }
+        
+        if (EMAILIT_VERSION < '1.3') {
             return false;
         }
 
@@ -205,26 +224,26 @@ final class AutomatorWP_MailPoet {
     public function load_textdomain() {
 
         // Set filter for language directory
-        $lang_dir = AUTOMATORWP_MAILPOET_DIR . '/languages/';
-        $lang_dir = apply_filters( 'automatorwp_mailpoet_languages_directory', $lang_dir );
+        $lang_dir = AUTOMATORWP_EMAILIT_DIR . '/languages/';
+        $lang_dir = apply_filters( 'automatorwp_emailit_languages_directory', $lang_dir );
 
         // Traditional WordPress plugin locale filter
-        $locale = apply_filters( 'plugin_locale', get_locale(), 'automatorwp-mailpoet' );
-        $mofile = sprintf( '%1$s-%2$s.mo', 'automatorwp-mailpoet', $locale );
+        $locale = apply_filters( 'plugin_locale', get_locale(), 'automatorwp-emailit' );
+        $mofile = sprintf( '%1$s-%2$s.mo', 'automatorwp_emailit', $locale );
 
         // Setup paths to current locale file
         $mofile_local   = $lang_dir . $mofile;
-        $mofile_global  = WP_LANG_DIR . '/automatorwp-mailpoet/' . $mofile;
+        $mofile_global  = WP_LANG_DIR . '/automatorwp-emailit/' . $mofile;
 
         if( file_exists( $mofile_global ) ) {
-            // Look in global /wp-content/languages/automatorwp-mailpoet/ folder
-            load_textdomain( 'automatorwp-mailpoet', $mofile_global );
+            // Look in global /wp-content/languages/automatorwp-Emailit/ folder
+            load_textdomain( 'automatorwp_emailit', $mofile_global );
         } elseif( file_exists( $mofile_local ) ) {
-            // Look in local /wp-content/plugins/automatorwp-mailpoet/languages/ folder
-            load_textdomain( 'automatorwp-mailpoet', $mofile_local );
+            // Look in local /wp-content/plugins/automatorwp-Emailit/languages/ folder
+            load_textdomain( 'automatorwp_emailit', $mofile_local );
         } else {
             // Load the default language files
-            load_plugin_textdomain( 'automatorwp-mailpoet', false, $lang_dir );
+            load_plugin_textdomain( 'automatorwp_emailit', false, $lang_dir );
         }
 
     }
@@ -232,12 +251,12 @@ final class AutomatorWP_MailPoet {
 }
 
 /**
- * The main function responsible for returning the one true AutomatorWP_MailPoet instance to functions everywhere
+ * The main function responsible for returning the one true AutomatorWP_EmailIt instance to functions everywhere
  *
  * @since       1.0.0
- * @return      \AutomatorWP_MailPoet The one true AutomatorWP_MailPoet
+ * @return      \AutomatorWP_EmailIt The one true AutomatorWP_EmailIt
  */
-function AutomatorWP_MailPoet() {
-    return AutomatorWP_MailPoet::instance();
+function AutomatorWP_EmailIt() {
+    return AutomatorWP_EmailIt::instance();
 }
-add_action( 'plugins_loaded', 'AutomatorWP_MailPoet' );
+add_action( 'plugins_loaded', 'AutomatorWP_EmailIt' );
